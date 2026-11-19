@@ -112,3 +112,18 @@ function projectedExtent(camera: PerspectiveCamera, points: readonly Vector3[]):
 export function pointSizeForPixels(pixels: number, distance: number, viewHeightCss: number): number {
   return (2 * pixels * distance) / viewHeightCss;
 }
+
+/** Below this view height (CSS px) points shrink with the view. Above it, PeopleCloud dims them instead. */
+const SMALL_VIEW_HEIGHT = 686;
+/** One device pixel on a 2x screen; smaller points are not drawn any smaller. */
+const SMALLEST_POINT_PIXELS = 0.5;
+
+/**
+ * Point size in CSS pixels for a view of this height. In a phone-sized view a person is only a few
+ * pixels wide, so full-size points would pile up and add to white. Shrinking them in step with the
+ * view keeps about the same share of each figure covered.
+ */
+export function pointPixelsForViewHeight(fullSizePixels: number, viewHeightCss: number): number {
+  const shrink = Math.min(1, viewHeightCss / SMALL_VIEW_HEIGHT);
+  return Math.max(SMALLEST_POINT_PIXELS, fullSizePixels * shrink);
+}

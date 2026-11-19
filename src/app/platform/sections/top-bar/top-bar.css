@@ -88,3 +88,39 @@
   font-variant-numeric: tabular-nums;
   text-align: right;
 }
+
+/* Narrow layout: brand and status share the first row; the site name and the disclaimer follow. */
+@media (max-width: 1023px) {
+  :host {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    grid-template-areas:
+      'brand status'
+      'site site'
+      'disclaimer disclaimer';
+    gap: 6px 12px;
+    padding: 12px 16px;
+  }
+
+  .brand {
+    grid-area: brand;
+  }
+
+  .status {
+    grid-area: status;
+    gap: 12px;
+  }
+
+  .site-name {
+    grid-area: site;
+  }
+
+  .disclaimer {
+    grid-area: disclaimer;
+    justify-self: start;
+  }
+
+  .divider {
+    display: none;
+  }
+}

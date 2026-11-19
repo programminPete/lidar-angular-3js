@@ -19,6 +19,8 @@ npm start        # http://localhost:4200/
 npm test         # Vitest
 ```
 
+Below 1024 px wide the layout stacks for phones and tablets: the viewport first, then the status sections, and the page scrolls.
+
 The page opens in the 3D view. `?view=plan` (or `?view=2d`) opens the plan and `?view=3d` the 3D view; the toggle keeps the address in step, so either view can be linked to.
 
 Optional WebSocket mode: `npm run server` starts `server/track-server.ts`, which runs the same simulator and broadcasts frames on `ws://localhost:8787`. Then open `http://localhost:4200/?ws=ws://localhost:8787`.

@@ -19,15 +19,12 @@ import { TrackMotion, type DrawablePerson } from '../shared/track-motion';
 import { buildPlanDrawing, planWorldBounds, SCALE_BAR_METRES } from './plan-drawing';
 import {
   fitWorldToViewport,
+  planMarginsFor,
   projectPeople,
   toScreenVelocity,
-  type Margins,
   type Size,
 } from './plan-mapping';
 import { PlanTagOverlay, SELECTED_RING_RADIUS } from './plan-tag-overlay';
-
-/** Room around the drawing: the view toggle sits top-left, the scale bar bottom-left. */
-const PLAN_MARGINS: Margins = { top: 64, right: 40, bottom: 64, left: 40 };
 
 // People, in CSS pixels.
 const DOT_RADIUS = 3.5;
@@ -66,9 +63,10 @@ export class PlatformPlan {
 
   /** Panel size in CSS pixels, set by the ResizeObserver. */
   protected readonly viewportSize = signal<Size>({ width: 0, height: 0 });
-  private readonly mapping = computed(() =>
-    fitWorldToViewport(planWorldBounds(PLATFORM_LAYOUT), this.viewportSize(), PLAN_MARGINS),
-  );
+  private readonly mapping = computed(() => {
+    const panel = this.viewportSize();
+    return fitWorldToViewport(planWorldBounds(PLATFORM_LAYOUT), panel, planMarginsFor(panel));
+  });
 
   protected readonly hasSize = computed(() => this.viewportSize().width > 0);
   protected readonly drawing = computed(() => buildPlanDrawing(PLATFORM_LAYOUT, this.mapping()));

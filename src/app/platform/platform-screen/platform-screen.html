@@ -1,21 +1,24 @@
 <main class="viewport-area">
-  <section class="viewport" aria-label="Platform viewport">
-    <ow-view-toggle class="view-toggle" [view]="view()" (viewChange)="showView($event)" />
-    <ow-viewport-legend class="viewport-legend" />
-    @switch (view()) {
-      @case ('plan') {
-        <ow-platform-plan />
-      }
-      @case ('3d') {
-        <!-- @defer splits Three.js into its own chunk, loaded only when 3D is chosen. -->
-        @defer (on immediate) {
-          <ow-platform-3d />
-        } @placeholder {
-          <p class="visually-hidden">Loading 3D view</p>
+  <div class="viewport-frame">
+    <section class="viewport" aria-label="Platform viewport">
+      <ow-view-toggle class="view-toggle" [view]="view()" (viewChange)="showView($event)" />
+      @switch (view()) {
+        @case ('plan') {
+          <ow-platform-plan />
+        }
+        @case ('3d') {
+          <!-- @defer splits Three.js into its own chunk, loaded only when 3D is chosen. -->
+          @defer (on immediate) {
+            <ow-platform-3d />
+          } @placeholder {
+            <p class="visually-hidden">Loading 3D view</p>
+          }
         }
       }
-    }
-  </section>
+    </section>
+    <!-- Over the panel's corner on a wide screen; on a narrow one it sits below the panel. -->
+    <ow-viewport-legend class="viewport-legend" />
+  </div>
 
   @if (isPlanView()) {
     <ow-hourly-chart class="hourly-chart" [hours]="hourly()" [capacity]="capacity" />

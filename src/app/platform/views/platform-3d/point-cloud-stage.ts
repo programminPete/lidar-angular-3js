@@ -13,7 +13,13 @@ import {
 } from 'three';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 import { PLATFORM_LAYOUT } from '../../data/platform-layout';
-import { CAMERA_FOV_DEGREES, defaultViewDirection, frameCameraOnPoints, pointSizeForPixels } from './camera-framing';
+import {
+  CAMERA_FOV_DEGREES,
+  defaultViewDirection,
+  frameCameraOnPoints,
+  pointPixelsForViewHeight,
+  pointSizeForPixels,
+} from './camera-framing';
 import { PeopleCloud } from './people-cloud';
 import {
   BERTH_GHOST_OPACITY,
@@ -27,7 +33,7 @@ import { VIEWPORT_BACKGROUND, displayColor } from './point-cloud-colors';
 
 /** Share of the view the platform and berth fill in the default framing. */
 const DEFAULT_FILL = { height: 0.88, width: 0.94 };
-/** Point size in CSS pixels at the default framing distance. */
+/** Point size in CSS pixels at the default framing distance, in a desktop-sized view. */
 const POINT_SIZE_PIXELS = 1.3;
 /** People's points are drawn a little larger than structure, so figures read solid, as in the mock. */
 const PEOPLE_POINT_SCALE = 1.3;
@@ -183,7 +189,8 @@ export class PointCloudStage {
     this.controls.update();
     this.hasFramed = true;
 
-    this.setPointSize(pointSizeForPixels(POINT_SIZE_PIXELS, distance, this.viewHeight));
+    const pointPixels = pointPixelsForViewHeight(POINT_SIZE_PIXELS, this.viewHeight);
+    this.setPointSize(pointSizeForPixels(pointPixels, distance, this.viewHeight));
     this.updateFog();
   }
 

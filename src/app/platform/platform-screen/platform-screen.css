@@ -15,6 +15,15 @@
   padding: 24px;
 }
 
+/* Holds the panel and its legend, so the legend can sit over the panel or below it. */
+.viewport-frame {
+  position: relative;
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  min-height: 0;
+}
+
 .viewport {
   position: relative;
   flex: 1;
@@ -131,5 +140,54 @@
 
   .breach-alert {
     margin-top: 16px;
+  }
+}
+
+/* Narrow layout: the viewport, then the status column below it. The page scrolls, not the column. */
+@media (max-width: 1023px) {
+  :host {
+    display: block;
+  }
+
+  .viewport-area {
+    gap: 16px;
+    padding: 12px 16px 16px;
+  }
+
+  .viewport-frame {
+    flex: none;
+  }
+
+  /* Tall enough for the 3D view, and short enough that the status below stays in reach. */
+  .viewport {
+    flex: none;
+    height: clamp(260px, 72vw, min(520px, 78dvh));
+  }
+
+  .view-toggle {
+    top: 12px;
+    left: 12px;
+  }
+
+  .viewport-legend {
+    position: static;
+    margin-top: 10px;
+  }
+
+  .side-column {
+    overflow-y: visible;
+    padding: 16px;
+    border-top: 1px solid var(--line);
+    border-left: 0;
+  }
+
+  /* First in the column, so a breach is seen without scrolling past the other sections. */
+  .breach-alert {
+    order: -1;
+    margin: 0 0 16px;
+  }
+
+  .privacy-note {
+    margin-top: 0;
   }
 }

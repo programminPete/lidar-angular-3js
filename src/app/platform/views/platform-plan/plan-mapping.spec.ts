@@ -1,5 +1,6 @@
 import {
   fitWorldToViewport,
+  planMarginsFor,
   projectPeople,
   toScreenVelocity,
   toScreenX,
@@ -8,6 +9,19 @@ import {
 } from './plan-mapping';
 
 const NO_MARGINS: Margins = { top: 0, right: 0, bottom: 0, left: 0 };
+
+describe('planMarginsFor', () => {
+  it('keeps room for the toggle, scale bar and legend on a wide panel', () => {
+    expect(planMarginsFor({ width: 900, height: 500 })).toEqual({ top: 64, right: 40, bottom: 64, left: 40 });
+  });
+
+  it('gives a phone-width panel narrower side margins so the drawing uses the width', () => {
+    const margins = planMarginsFor({ width: 343, height: 270 });
+
+    expect(margins.left).toBe(16);
+    expect(margins.right).toBe(16);
+  });
+});
 
 describe('fitWorldToViewport', () => {
   it('fits the width when the viewport is relatively taller than the world', () => {

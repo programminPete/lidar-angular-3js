@@ -39,3 +39,11 @@ li {
   background: var(--watch);
   border-radius: 50%;
 }
+
+/* Narrow layout: the legend sits below the panel as one row, wrapping if it has to. */
+@media (max-width: 1023px) {
+  .legend {
+    flex-flow: row wrap;
+    gap: 6px 16px;
+  }
+}

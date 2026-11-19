@@ -28,6 +28,16 @@ export interface Margins {
   left: number;
 }
 
+/** Room for the view toggle (top left) and the scale bar (bottom left); the legend sits bottom right. */
+const WIDE_PANEL_MARGINS: Margins = { top: 64, right: 40, bottom: 64, left: 40 };
+/** A phone-width panel gives the drawing nearly the full width; its legend is below the panel. */
+const NARROW_PANEL_MARGINS: Margins = { top: 56, right: 16, bottom: 48, left: 16 };
+const NARROW_PANEL_MAX_WIDTH = 600;
+
+export function planMarginsFor(panel: Size): Margins {
+  return panel.width <= NARROW_PANEL_MAX_WIDTH ? NARROW_PANEL_MARGINS : WIDE_PANEL_MARGINS;
+}
+
 /** Scales `world` uniformly to fit inside `viewport` less `margins`, centred in the space left over. */
 export function fitWorldToViewport(world: Rect, viewport: Size, margins: Margins): PlanMapping {
   const availableWidth = Math.max(1, viewport.width - margins.left - margins.right);
