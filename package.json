@@ -1,13 +1,18 @@
 {
   "name": "platform-demo",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
     "server": "tsx server/track-server.ts",
     "test": "ng test",
     "build": "ng build",
-    "watch": "ng build --watch --configuration development"
+    "watch": "ng build --watch --configuration development",
+    "test:release": "node --test tools/release/package.test.mjs",
+    "release:build": "node tools/release/build.mjs",
+    "release:verify": "node tools/release/verify.mjs",
+    "release:serve": "node tools/release/serve.mjs",
+    "release:receipt": "node tools/release/receipt.mjs"
   },
   "private": true,
   "packageManager": "npm@10.9.8",

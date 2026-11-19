@@ -45,6 +45,23 @@
               ],
               "outputHashing": "all"
             },
+            "study": {
+              "optimization": {
+                "scripts": true,
+                "styles": {
+                  "minify": true,
+                  "inlineCritical": false
+                },
+                "fonts": true
+              },
+              "outputHashing": "all",
+              "fileReplacements": [
+                {
+                  "replace": "src/app/track-stream.provider.ts",
+                  "with": "src/app/track-stream.provider.study.ts"
+                }
+              ]
+            },
             "development": {
               "optimization": false,
               "extractLicenses": false,

@@ -26,7 +26,7 @@ Optional WebSocket mode: `npm run server` starts `server/track-server.ts`, which
 ## How it works
 
 ```
-TrackStream  (SimulatedTrackStream | WebSocketTrackStream, chosen in app.config.ts)
+TrackStream  (SimulatedTrackStream | WebSocketTrackStream, chosen in track-stream.provider.ts)
     │ frames$ at 10 Hz
     ▼
 PlatformStore  RxJS: metrics once per frame → breach, hourly history, door advice
@@ -75,6 +75,16 @@ A real feed would need to send one JSON `TrackFrame` about every 100 ms, with st
 
 - 3D view, about 130 people, measured on one machine (Apple M4 Max, Chrome with Metal): average frame time 16.6 ms. Under software rendering (SwiftShader) on the same machine: 27.6 ms.
 - Production build (`npm run build`): initial 244.27 kB raw / 72.25 kB transfer; lazy `platform-3d` chunk 586.65 kB raw / 122.78 kB transfer.
+
+## Study release
+
+The `study` build configuration packages the app as a static study for alldayonrepete.com. It is simulation only: `track-stream.provider.study.ts` replaces the provider, so the WebSocket client and `?ws=` are not in the build. The page is served at `/studies/lidar-platform` and loads its files from `/_studies/lidar-platform/<id>/`.
+```sh
+npm run release:build -- v0.1.0            # clean tree required; --candidate allows a dirty one
+npm run release:verify -- release-output/v0.1.0
+npm run release:serve -- release-output/v0.1.0 5310
+```
+`npm run release:receipt -- release-output/v0.1.0` writes the receipt that ships with the release. The scripts are in `tools/release/`.
 
 ## Layout
 

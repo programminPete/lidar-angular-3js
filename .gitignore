@@ -45,3 +45,6 @@ Thumbs.db
 
 # Scratch screenshots and review stills
 /shots
+
+# Study release packages
+/release-output
