@@ -1,0 +1,58 @@
+/* Overwatch design tokens. Flat, dark, hairline-bordered. Ported from design-lab/kit/tokens.css. */
+:root {
+  /* Surfaces */
+  --bg-page: #0A0B0D;
+  --bg-viewport: #07080A;
+  --bg-panel: #101216;
+  --bg-raised: #161920;
+  --line: rgba(255, 255, 255, 0.07);
+  --line-strong: rgba(255, 255, 255, 0.12);
+
+  /* Text */
+  --text-1: #E8EAED;
+  --text-2: #9AA1AC;
+  --text-3: #626975;
+
+  /* Brand accent: the product mark and the selected track. Never status. */
+  --gold: #C9A84C;
+  --gold-soft: rgba(201, 168, 76, 0.14);
+
+  /* Status (never decorative). Red appears once per screen: the active alert. */
+  --ok: #35C4A5;
+  --watch: #F08A2B;
+  --alert: #F0474B;
+  --off: #4A505B;
+  --watch-soft: rgba(240, 138, 43, 0.12);
+  --alert-soft: rgba(240, 71, 75, 0.11);
+
+  /* Point cloud */
+  --pc-structure-lo: #3D4A57;
+  --pc-structure-hi: #8FA6B5;
+  --pc-person: #3FD9BA;
+
+  /* Type */
+  --font-ui: -apple-system, "SF Pro Text", system-ui, sans-serif;
+  --font-mono: ui-monospace, "SF Mono", Menlo, monospace;
+  --fs-label: 11px;
+  --fs-mono: 12px;
+  --fs-body: 13px;
+  --fs-title: 14px;
+  --fs-stat: 32px;
+  --tracking-label: 0.06em;
+
+  /* Spacing (8px grid, 4px half-step) */
+  --s-1: 4px;
+  --s-2: 8px;
+  --s-3: 12px;
+  --s-4: 16px;
+  --s-5: 24px;
+  --s-6: 32px;
+
+  /* Radii */
+  --r-panel: 6px;
+  --r-chip: 4px;
+
+  /* Frame */
+  --topbar-h: 48px;
+  --side-column-w: 360px;
+}

@@ -1,0 +1,303 @@
+:host {
+  /* Blue-gray structure stroke from the design lab, at the opacities the plan uses. */
+  --structure: 143, 166, 181;
+
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+}
+
+.plan,
+.people,
+.door-labels {
+  position: absolute;
+  inset: 0;
+}
+
+.people {
+  width: 100%;
+  height: 100%;
+}
+
+.people:focus-visible {
+  outline: 2px solid var(--text-2);
+  outline-offset: -2px;
+  border-radius: var(--r-panel);
+}
+
+/* Above the people canvas so dots never hide which door a lane belongs to; clicks pass through. */
+.door-labels {
+  pointer-events: none;
+}
+
+/* ---- Static plan ---- */
+
+.plan text {
+  font-family: var(--font-ui);
+}
+
+.floor {
+  fill: rgba(var(--structure), 0.022);
+}
+
+.wall {
+  fill: rgba(var(--structure), 0.07);
+  stroke: rgba(var(--structure), 0.6);
+  stroke-width: 1;
+}
+
+.guideway {
+  stroke: url(#plan-guideway-fade);
+  stroke-width: 1;
+}
+
+.structure,
+.column,
+.bench {
+  fill: none;
+  stroke: rgba(var(--structure), 0.5);
+  stroke-width: 1;
+}
+
+.column {
+  fill: rgba(var(--structure), 0.07);
+}
+
+.bench {
+  stroke: rgba(var(--structure), 0.38);
+}
+
+.tread {
+  stroke: rgba(var(--structure), 0.2);
+}
+
+.landing {
+  stroke: rgba(var(--structure), 0.4);
+}
+
+.chevron {
+  fill: none;
+  stroke: rgba(var(--structure), 0.55);
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.concourse-label {
+  font-size: 11px;
+  fill: var(--text-3);
+}
+
+/* ---- Doors and keep-clear areas ---- */
+
+.door-leaves {
+  stroke: rgba(var(--structure), 0.25);
+  transition: opacity 400ms ease;
+}
+
+.door-open-marks {
+  opacity: 0;
+  transition: opacity 400ms ease;
+}
+
+.door.is-open .door-leaves {
+  opacity: 0;
+}
+
+.door.is-open .door-open-marks {
+  opacity: 1;
+}
+
+.door-opening {
+  fill: rgba(53, 196, 165, 0.1);
+}
+
+.door-jamb {
+  stroke: var(--ok);
+  stroke-width: 1.5;
+}
+
+.keep-clear {
+  fill: rgba(53, 196, 165, 0.035);
+  stroke: rgba(53, 196, 165, 0.62);
+  stroke-width: 1;
+}
+
+/*
+ * "Door 1" inside each keep-clear lane; 11px fits the ~51px lanes at 1280 × 720.
+ * The 3px stroke, painted under the fill, is a halo in the lane's floor colour so the label
+ * stays legible over the dots beneath it.
+ */
+.door-label {
+  font-family: var(--font-ui);
+  font-size: 11px;
+  font-weight: 500;
+  fill: rgba(53, 196, 165, 0.9);
+  stroke: #0A0D0F;
+  stroke-width: 3px;
+  stroke-linejoin: round;
+  paint-order: stroke;
+  text-anchor: middle;
+  transition: opacity 150ms ease;
+}
+
+/* The selected person stands under this label: let the gold dot show through. */
+.door-label.is-over-selection {
+  opacity: 0.35;
+}
+
+/* Safety net: the selected tag had nowhere clear to go and sits on this label. */
+.door-label.is-under-tag {
+  opacity: 0;
+}
+
+/* ---- Shuttle: a labelled berth while away, cross-fading to the docked cars ---- */
+
+/* The outgoing layer fades out first and the incoming one follows, so the labels never overlap. */
+.berth-layer,
+.docked-layer {
+  transition: opacity 200ms ease;
+}
+
+.shuttle-car.is-docked .docked-layer,
+.shuttle-car:not(.is-docked) .berth-layer {
+  transition-delay: 200ms;
+}
+
+.docked-layer,
+.shuttle-car.is-docked .berth-layer {
+  opacity: 0;
+}
+
+.shuttle-car.is-docked .docked-layer {
+  opacity: 1;
+}
+
+.berth-outline {
+  fill: none;
+  stroke: rgba(var(--structure), 0.26);
+  stroke-width: 1;
+  stroke-dasharray: 3 5;
+}
+
+.berth-label {
+  font-size: 11px;
+  letter-spacing: 0.02em;
+  fill: var(--text-3);
+  opacity: 0.8;
+  text-anchor: middle;
+}
+
+.car-body {
+  fill: #0B0D10;
+  stroke: rgba(var(--structure), 0.5);
+  stroke-width: 1;
+}
+
+.car-door-mark {
+  stroke: rgba(var(--structure), 0.5);
+}
+
+.car-label {
+  font-size: 11px;
+  letter-spacing: 0.02em;
+  fill: var(--text-3);
+  text-anchor: middle;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .berth-layer,
+  .docked-layer,
+  .door-leaves,
+  .door-open-marks {
+    transition: none;
+  }
+}
+
+/* ---- Overlays ---- */
+
+.scale-bar {
+  position: absolute;
+  left: 20px;
+  bottom: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  font-size: 11px;
+  color: var(--text-2);
+  pointer-events: none;
+}
+
+.scale-bar-line {
+  height: 5px;
+  border: 1px solid var(--text-2);
+  border-top: 0;
+}
+
+/* Follows the selected dot every frame; holds the tag, which sits to one side of it. */
+.selected-tag-anchor {
+  position: absolute;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+  transition: opacity 150ms ease-out;
+}
+
+/* Fading out after its person leaves or the selection clears. */
+.selected-tag-anchor.is-leaving {
+  opacity: 0;
+}
+
+.selected-tag-anchor[hidden] {
+  display: none;
+}
+
+/* Offset to the chosen side of the dot. Only a change of side animates, never the following. */
+.selected-tag {
+  position: absolute;
+  top: 0;
+  left: 0;
+  transition:
+    transform 180ms ease-out,
+    opacity 90ms ease-out;
+  display: flex;
+  gap: 6px;
+  padding: 3px 9px;
+  font-size: 11px;
+  line-height: 14px;
+  white-space: nowrap;
+  color: var(--text-1);
+  background: #0A0B0D;
+  border: 1px solid rgba(201, 168, 76, 0.55);
+  border-radius: var(--r-chip);
+  pointer-events: none;
+}
+
+.selected-tag.is-placing {
+  transition: none;
+}
+
+/* Dimmed while sliding to a new side, so it never reads as crossing its own dot. */
+.selected-tag.is-changing-side {
+  opacity: 0.15;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .selected-tag,
+  .selected-tag-anchor {
+    transition: none;
+  }
+}
+
+.selected-tag-id {
+  font-family: var(--font-mono);
+  color: var(--gold);
+}
+
+.selected-tag-separator {
+  color: var(--text-3);
+}
+
+/* Says what the time after it measures. */
+.selected-tag-label {
+  color: var(--text-2);
+}

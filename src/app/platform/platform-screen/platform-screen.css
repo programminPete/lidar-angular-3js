@@ -1,0 +1,135 @@
+:host {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) var(--side-column-w);
+  min-height: 0;
+}
+
+/* ---- Viewport area (left) ---- */
+
+.viewport-area {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  min-width: 0;
+  min-height: 0;
+  padding: 24px;
+}
+
+.viewport {
+  position: relative;
+  flex: 1;
+  min-height: 0;
+  overflow: hidden;
+  background: var(--bg-viewport);
+  border: 1px solid var(--line);
+  border-radius: var(--r-panel);
+}
+
+.view-toggle {
+  position: absolute;
+  top: 16px;
+  left: 16px;
+  z-index: 2;
+}
+
+/* Mirrors the plan's scale bar, which sits at the bottom left. */
+.viewport-legend {
+  position: absolute;
+  right: 20px;
+  bottom: 18px;
+  z-index: 2;
+}
+
+.hourly-chart {
+  flex: none;
+  height: 150px;
+}
+
+/* ---- Side column (right) ---- */
+
+.side-column {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  overflow-y: auto;
+  padding: 24px;
+  background: var(--bg-panel);
+  border-left: 1px solid var(--line);
+}
+
+.side-section + .side-section {
+  margin-top: 24px;
+  padding-top: 24px;
+  border-top: 1px solid var(--line);
+}
+
+.breach-alert {
+  margin-top: 24px;
+}
+
+/* Applied by Angular's animate.enter / animate.leave; the card is removed once the fade ends. */
+.breach-alert-enter {
+  animation: breach-alert-in 200ms ease-out;
+}
+
+.breach-alert-leave {
+  animation: breach-alert-out 200ms ease-in forwards;
+}
+
+@keyframes breach-alert-in {
+  from {
+    opacity: 0;
+    transform: translateY(-6px);
+  }
+}
+
+@keyframes breach-alert-out {
+  to {
+    opacity: 0;
+    transform: translateY(-6px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .breach-alert-enter,
+  .breach-alert-leave {
+    animation: none;
+  }
+}
+
+.privacy-note {
+  margin-top: auto;
+  padding-top: 24px;
+  font-size: 11px;
+  color: var(--text-3);
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+/* Short windows (720 to 860 px tall): tighten vertical rhythm so the column fits without scrolling. */
+@media (max-height: 860px) {
+  .viewport-area {
+    gap: 16px;
+    padding: 16px;
+  }
+
+  .side-column {
+    padding: 16px 24px;
+  }
+
+  .side-section + .side-section {
+    margin-top: 16px;
+    padding-top: 16px;
+  }
+
+  .breach-alert {
+    margin-top: 16px;
+  }
+}

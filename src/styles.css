@@ -1,0 +1,40 @@
+@import './styles/tokens.css';
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html, body {
+  height: 100%;
+  overflow: hidden;
+  background: var(--bg-page);
+  color: var(--text-1);
+  font-family: var(--font-ui);
+  font-size: var(--fs-body);
+  line-height: 1.38;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+button { font: inherit; color: inherit; background: none; border: 0; cursor: pointer; }
+svg { display: block; flex: none; }
+
+/* Uppercase section label used across the side column and viewport panels. */
+.section-label {
+  display: block;
+  font-size: var(--fs-label);
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-label);
+  color: var(--text-3);
+}
+
+/* Quiet bordered button (Acknowledge and similar). */
+.button {
+  display: inline-flex; align-items: center; justify-content: center; gap: 6px;
+  height: 28px; padding: 0 12px;
+  border: 1px solid var(--line-strong); border-radius: var(--r-chip);
+  background: var(--bg-raised);
+  font-size: 12px; font-weight: 500; color: var(--text-1); white-space: nowrap;
+}
+.button:hover { border-color: rgba(255, 255, 255, 0.22); }
+
+:focus-visible { outline: 2px solid var(--text-2); outline-offset: 2px; }

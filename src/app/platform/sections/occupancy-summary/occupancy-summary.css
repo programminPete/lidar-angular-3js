@@ -1,0 +1,76 @@
+:host {
+  display: block;
+}
+
+.occupancy {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  --tone: var(--ok);
+}
+
+.occupancy.is-watch {
+  --tone: var(--watch);
+}
+
+.ring circle {
+  fill: none;
+  stroke-width: 5;
+}
+
+.ring-track {
+  stroke: rgba(255, 255, 255, 0.06);
+}
+
+.ring-fill {
+  stroke: var(--tone);
+  opacity: 0.88;
+}
+
+/* A panel-coloured halo under the overflow arc, so it reads as a second lap over the first. */
+.ring-overflow-gap {
+  stroke: var(--bg-panel);
+  stroke-width: 9 !important;
+  stroke-linecap: round;
+}
+
+.ring-overflow {
+  stroke: var(--tone);
+  stroke-linecap: round;
+}
+
+.ring-tick {
+  stroke: var(--text-3);
+  stroke-width: 1;
+}
+
+.count {
+  width: 3ch;
+  font-size: 44px;
+  font-weight: 600;
+  line-height: 1;
+  letter-spacing: -0.025em;
+  font-variant-numeric: tabular-nums;
+}
+
+.capacity {
+  margin-top: 8px;
+  color: var(--text-2);
+}
+
+.percent {
+  margin-top: 2px;
+  font-weight: 500;
+  font-variant-numeric: tabular-nums;
+  color: var(--text-2);
+}
+
+.is-watch .percent {
+  color: var(--watch);
+}
+
+.breaches {
+  margin-top: 16px;
+  font-size: 12px;
+  color: var(--text-3);
+}

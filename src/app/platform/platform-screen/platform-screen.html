@@ -1,0 +1,45 @@
+<main class="viewport-area">
+  <section class="viewport" aria-label="Platform viewport">
+    <ow-view-toggle class="view-toggle" [view]="view()" (viewChange)="showView($event)" />
+    <ow-viewport-legend class="viewport-legend" />
+    @switch (view()) {
+      @case ('plan') {
+        <ow-platform-plan />
+      }
+      @case ('3d') {
+        <!-- @defer splits Three.js into its own chunk, loaded only when 3D is chosen. -->
+        @defer (on immediate) {
+          <ow-platform-3d />
+        } @placeholder {
+          <p class="visually-hidden">Loading 3D view</p>
+        }
+      }
+    }
+  </section>
+
+  @if (isPlanView()) {
+    <ow-hourly-chart class="hourly-chart" [hours]="hourly()" [capacity]="capacity" />
+  }
+</main>
+
+<aside class="side-column" aria-label="Platform status">
+  <ow-occupancy-summary class="side-section" [metrics]="metrics()" [breachesToday]="breach().breachesToday" />
+  <ow-door-waiting-bars class="side-section" [metrics]="metrics()" [advice]="doorAdvice()" />
+  <ow-next-shuttle class="side-section" [shuttle]="shuttle()" />
+
+  @if (isBreachShown()) {
+    <ow-breach-alert
+      class="breach-alert"
+      animate.enter="breach-alert-enter"
+      animate.leave="breach-alert-leave"
+      [breach]="breach()"
+      [metrics]="metrics()"
+      [advice]="doorAdvice()"
+      (acknowledge)="acknowledgeBreach()"
+    />
+  }
+  <p class="visually-hidden" aria-live="polite">{{ breachAnnouncement() }}</p>
+  <p class="visually-hidden" aria-live="polite">{{ selectionAnnouncement() }}</p>
+
+  <p class="privacy-note">Anonymous tracks only. No camera imagery.</p>
+</aside>

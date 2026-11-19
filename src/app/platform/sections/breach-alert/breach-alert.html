@@ -1,0 +1,31 @@
+<div class="alert" [class.is-calm]="isCalm()">
+  <p class="title">{{ title() }}</p>
+  @if (isClearing()) {
+    <p class="detail">{{ breachLength() }}</p>
+  } @else {
+    <p class="detail">
+      {{ recommendation().lead }}
+      @if (recommendation().doorList) {
+        <span class="door-list">{{ recommendation().doorList }}</span>
+      }
+    </p>
+  }
+  <div class="footer">
+    <!-- Stays the same focusable button once acknowledged (aria-disabled, styled as status text),
+         so keyboard focus is not dropped to the page. -->
+    <button
+      class="acknowledge"
+      [class.is-acknowledged]="isAcknowledged()"
+      type="button"
+      [attr.aria-disabled]="isAcknowledged()"
+      (click)="acknowledgeBreach()"
+    >
+      @if (isAcknowledged()) {
+        <span class="check" aria-hidden="true">✓</span>Acknowledged
+      } @else {
+        Acknowledge
+      }
+    </button>
+    <time class="started-at" aria-label="Breach started at">{{ startedAt() | date: 'HH:mm:ss' }}</time>
+  </div>
+</div>

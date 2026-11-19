@@ -1,0 +1,140 @@
+@let plan = drawing();
+@if (hasSize()) {
+  <svg
+    class="plan"
+    [attr.width]="viewportSize().width"
+    [attr.height]="viewportSize().height"
+    role="img"
+    aria-label="Plan of the shuttle platform with doors, keep-clear areas and the shuttle berth"
+  >
+    <defs>
+      <linearGradient
+        id="plan-guideway-fade"
+        gradientUnits="userSpaceOnUse"
+        [attr.x1]="plan.guidewayFade.x1"
+        [attr.x2]="plan.guidewayFade.x2"
+        y1="0"
+        y2="0"
+      >
+        <stop offset="0" stop-color="#8FA6B5" stop-opacity="0" />
+        <stop offset="0.07" stop-color="#8FA6B5" stop-opacity="0.3" />
+        <stop offset="0.93" stop-color="#8FA6B5" stop-opacity="0.3" />
+        <stop offset="1" stop-color="#8FA6B5" stop-opacity="0" />
+      </linearGradient>
+    </defs>
+
+    <rect class="floor" [attr.x]="plan.floor.x" [attr.y]="plan.floor.y" [attr.width]="plan.floor.width" [attr.height]="plan.floor.height" />
+
+    @for (edge of plan.guideway; track $index) {
+      <line class="guideway" [attr.x1]="edge.x1" [attr.y1]="edge.y1" [attr.x2]="edge.x2" [attr.y2]="edge.y2" />
+    }
+
+    @for (car of plan.cars; track car.label) {
+      <g class="shuttle-car" [class.is-docked]="isShuttleDocked()">
+        <g class="berth-layer">
+          <rect
+            class="berth-outline"
+            [attr.x]="car.outline.x"
+            [attr.y]="car.outline.y"
+            [attr.width]="car.outline.width"
+            [attr.height]="car.outline.height"
+            [attr.rx]="car.cornerRadius"
+          />
+          <text class="berth-label" [attr.x]="car.labelAt.x" [attr.y]="car.labelAt.y">{{ car.berthLabel }}</text>
+        </g>
+        <g class="docked-layer">
+          <rect
+            class="car-body"
+            [attr.x]="car.outline.x"
+            [attr.y]="car.outline.y"
+            [attr.width]="car.outline.width"
+            [attr.height]="car.outline.height"
+            [attr.rx]="car.cornerRadius"
+          />
+          @for (mark of car.doorMarks; track $index) {
+            <line class="car-door-mark" [attr.x1]="mark.x1" [attr.y1]="mark.y1" [attr.x2]="mark.x2" [attr.y2]="mark.y2" />
+          }
+          <text class="car-label" [attr.x]="car.labelAt.x" [attr.y]="car.labelAt.y">{{ car.label }}</text>
+        </g>
+      </g>
+    }
+
+    <path class="wall" [attr.d]="plan.outerWall" />
+    @for (piece of plan.doorWallPieces; track $index) {
+      <rect class="wall" [attr.x]="piece.x" [attr.y]="piece.y" [attr.width]="piece.width" [attr.height]="piece.height" />
+    }
+
+    @for (door of plan.doors; track door.label) {
+      <g class="door" [class.is-open]="areDoorsOpen()">
+        <line
+          class="door-leaves"
+          [attr.x1]="door.closedLeaves.x1"
+          [attr.y1]="door.closedLeaves.y1"
+          [attr.x2]="door.closedLeaves.x2"
+          [attr.y2]="door.closedLeaves.y2"
+        />
+        <g class="door-open-marks">
+          <rect class="door-opening" [attr.x]="door.opening.x" [attr.y]="door.opening.y" [attr.width]="door.opening.width" [attr.height]="door.opening.height" />
+          @for (jamb of door.openJambs; track $index) {
+            <line class="door-jamb" [attr.x1]="jamb.x1" [attr.y1]="jamb.y1" [attr.x2]="jamb.x2" [attr.y2]="jamb.y2" />
+          }
+        </g>
+        <rect class="keep-clear" [attr.x]="door.keepClear.x" [attr.y]="door.keepClear.y" [attr.width]="door.keepClear.width" [attr.height]="door.keepClear.height" />
+      </g>
+    }
+
+    @for (escalator of plan.escalators; track $index) {
+      <rect
+        class="structure"
+        [attr.x]="escalator.outline.x"
+        [attr.y]="escalator.outline.y"
+        [attr.width]="escalator.outline.width"
+        [attr.height]="escalator.outline.height"
+      />
+      @for (tread of escalator.treads; track $index) {
+        <line class="tread" [attr.x1]="tread.x1" [attr.y1]="tread.y1" [attr.x2]="tread.x2" [attr.y2]="tread.y2" />
+      }
+      <line class="landing" [attr.x1]="escalator.landing.x1" [attr.y1]="escalator.landing.y1" [attr.x2]="escalator.landing.x2" [attr.y2]="escalator.landing.y2" />
+      <polyline class="chevron" [attr.points]="escalator.chevron" />
+    }
+    <text class="concourse-label" [attr.x]="plan.concourseLabelAt.x" [attr.y]="plan.concourseLabelAt.y">From concourse</text>
+
+    @for (column of plan.columns; track $index) {
+      <circle class="column" [attr.cx]="column.cx" [attr.cy]="column.cy" [attr.r]="column.r" />
+    }
+    @for (bench of plan.benches; track $index) {
+      <rect class="bench" [attr.x]="bench.x" [attr.y]="bench.y" [attr.width]="bench.width" [attr.height]="bench.height" />
+    }
+  </svg>
+}
+
+<canvas
+  #peopleCanvas
+  class="people"
+  tabindex="0"
+  aria-label="People on the platform. Left and Right arrows select the next person along the platform; Escape clears."
+  (click)="selectPersonAt($event)"
+  (keydown)="onKeydown($event)"
+></canvas>
+
+@if (hasSize()) {
+  <svg class="door-labels" [attr.width]="viewportSize().width" [attr.height]="viewportSize().height" aria-hidden="true">
+    @for (door of plan.doors; track door.label) {
+      <text #doorLabel class="door-label" [attr.x]="door.labelAt.x" [attr.y]="door.labelAt.y">{{ door.label }}</text>
+    }
+  </svg>
+
+  <div class="scale-bar">
+    <span>{{ scaleBarLabel }}</span>
+    <div class="scale-bar-line" [style.width.px]="plan.scaleBarWidth"></div>
+  </div>
+}
+
+<div #selectedTagAnchor class="selected-tag-anchor" hidden>
+  <div #selectedTag class="selected-tag">
+    <span #selectedTagId class="selected-tag-id"></span>
+    <span class="selected-tag-separator">·</span>
+    <span class="selected-tag-label">on platform</span>
+    <span #selectedTagTime></span>
+  </div>
+</div>

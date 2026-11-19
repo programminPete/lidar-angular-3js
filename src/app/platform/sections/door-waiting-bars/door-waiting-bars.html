@@ -1,0 +1,39 @@
+<h2 class="section-label">Waiting by door</h2>
+
+<svg class="bars" width="312" height="118" viewBox="0 0 312 118" role="img" [attr.aria-label]="chartLabel()">
+  @for (row of rows(); track row.label) {
+    <text class="door-label" x="0" [attr.y]="row.textY">{{ row.label }}</text>
+    <rect
+      class="bar-track"
+      [attr.x]="barStartX"
+      [attr.y]="row.barY"
+      [attr.width]="barTrackWidth"
+      [attr.height]="barHeight"
+      rx="1"
+    />
+    <rect
+      class="bar"
+      [class.is-watch]="row.isWatch"
+      [attr.x]="barStartX"
+      [attr.y]="row.barY"
+      [attr.width]="row.barWidth"
+      [attr.height]="barHeight"
+      rx="1"
+    />
+    <text class="door-count" x="312" [attr.y]="row.textY">{{ row.count }}</text>
+  }
+  <line
+    class="even-share-marker"
+    [attr.x1]="evenShareX()"
+    [attr.x2]="evenShareX()"
+    [attr.y1]="markerTop"
+    [attr.y2]="markerBottom"
+  />
+  <text class="even-share-label" [attr.x]="evenShareX()" [attr.y]="markerLabelY">{{ evenShareLabel() }}</text>
+</svg>
+
+<div class="room-note-frame" [class.is-open]="hasAdvice()" [attr.aria-hidden]="!hasAdvice()">
+  <div class="room-note-clip">
+    <p class="room-note">{{ roomAtQuietDoors() }}</p>
+  </div>
+</div>

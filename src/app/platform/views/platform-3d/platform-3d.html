@@ -1,0 +1,20 @@
+<div
+  class="viewport"
+  #viewport
+  tabindex="0"
+  role="application"
+  aria-label="3D view of the platform. Arrow keys select a person, Escape clears the selection."
+  (keydown)="onKeydown($event)"
+></div>
+
+<div class="overlay" aria-hidden="true">
+  @for (door of doors; track door.id) {
+    <span class="door-label" #doorLabel>{{ door.label }}</span>
+  }
+  <span class="selected-tag" #selectedTag hidden>
+    <span class="tag-id">{{ tagId() }}</span>
+    <span class="tag-separator">·</span>
+    <span class="tag-label">on platform</span>
+    <span>{{ tagTime() }}</span>
+  </span>
+</div>

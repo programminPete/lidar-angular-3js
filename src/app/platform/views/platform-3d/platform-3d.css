@@ -1,0 +1,129 @@
+:host {
+  position: absolute;
+  inset: 0;
+  display: block;
+}
+
+.viewport {
+  position: absolute;
+  inset: 0;
+  cursor: grab;
+  outline: none;
+  animation: fade-in 200ms ease-out;
+}
+
+.viewport:active {
+  cursor: grabbing;
+}
+
+.viewport:focus-visible {
+  box-shadow: inset 0 0 0 2px rgba(201, 168, 76, 0.7);
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+}
+
+/* Labels are placed each frame with a pixel transform; `translate` sets which point of the label sits there. */
+.overlay {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+/* Anchored at its bottom centre, just above the door frame. */
+.door-label {
+  position: absolute;
+  top: 0;
+  left: 0;
+  translate: -50% -100%;
+  padding: 1px 6px;
+  font-family: var(--font-ui);
+  font-size: var(--fs-label);
+  font-weight: 600;
+  color: rgba(232, 234, 237, 0.75);
+  white-space: nowrap;
+  background: rgba(7, 8, 10, 0.72);
+  border-radius: var(--r-chip);
+  transition: opacity 150ms ease-out;
+}
+
+/* Gives way while the selected tag is near it (see LabelYield). */
+.door-label.is-yielding {
+  opacity: 0;
+}
+
+/* Hangs above its anchor on a 14px leader line. Stays in the DOM so it can fade out before it is hidden. */
+.selected-tag {
+  position: absolute;
+  top: 0;
+  left: 0;
+  translate: -50% calc(-100% - 14px);
+  display: flex;
+  gap: 6px;
+  align-items: center;
+  padding: 3px 8px;
+  font-family: var(--font-mono);
+  font-size: var(--fs-mono);
+  color: var(--text-1);
+  white-space: nowrap;
+  opacity: 0;
+  background: var(--bg-panel);
+  border: 1px solid rgba(201, 168, 76, 0.55);
+  border-radius: var(--r-chip);
+  transition: opacity 150ms ease-out;
+}
+
+.selected-tag[hidden] {
+  display: none;
+}
+
+.selected-tag.is-shown {
+  opacity: 1;
+}
+
+.selected-tag::before {
+  width: 6px;
+  height: 6px;
+  content: '';
+  background: var(--gold);
+  border-radius: 50%;
+}
+
+.selected-tag::after {
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  width: 1px;
+  height: 14px;
+  content: '';
+  background: rgba(201, 168, 76, 0.6);
+}
+
+.tag-id {
+  color: var(--gold);
+}
+
+.tag-separator {
+  color: var(--text-3);
+}
+
+/* Says what the time after it measures. */
+.tag-label {
+  font-family: var(--font-ui);
+  color: var(--text-2);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .viewport {
+    animation: none;
+  }
+
+  .door-label,
+  .selected-tag {
+    transition: none;
+  }
+}

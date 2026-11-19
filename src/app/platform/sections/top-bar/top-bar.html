@@ -1,0 +1,15 @@
+<div class="brand"><span class="brand-mark" aria-hidden="true"></span>Overwatch</div>
+<span class="disclaimer">Concept demo · not affiliated with Sotereon AI</span>
+<span class="divider" aria-hidden="true"></span>
+<span class="site-name">{{ siteName }}</span>
+
+<div class="status">
+  <span class="connection" [class.is-live]="isLive()" role="status">
+    <span class="connection-dot" aria-hidden="true"></span>{{ connectionLabel() }}
+  </span>
+  @if (hasClock()) {
+    <time class="clock" aria-label="Demo clock">{{ clock() | date: 'HH:mm:ss' }}</time>
+  } @else {
+    <span class="clock" aria-label="Demo clock">--:--:--</span>
+  }
+</div>

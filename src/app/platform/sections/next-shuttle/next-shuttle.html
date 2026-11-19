@@ -1,0 +1,17 @@
+<h2 class="section-label">Next shuttle</h2>
+<p class="status">
+  @switch (phase()) {
+    @case ('approaching') {
+      Arrives in <b class="countdown">{{ countdown() }}</b><span class="separator">·</span>space for {{ spaceFor() }}
+    }
+    @case ('docked') {
+      At platform<span class="separator">·</span>doors open
+    }
+    @case ('departing') {
+      Departing
+    }
+    @default {
+      Waiting for shuttle data
+    }
+  }
+</p>

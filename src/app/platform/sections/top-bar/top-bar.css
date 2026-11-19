@@ -1,0 +1,90 @@
+:host {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 0 24px;
+  border-bottom: 1px solid var(--line);
+  white-space: nowrap;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: var(--fs-title);
+  font-weight: 600;
+  letter-spacing: -0.005em;
+}
+
+.brand-mark {
+  width: 12px;
+  height: 12px;
+  border-radius: 2px;
+  background: var(--gold);
+}
+
+.disclaimer {
+  display: inline-flex;
+  align-items: center;
+  height: 22px;
+  padding: 0 8px;
+  border: 1px solid var(--line);
+  border-radius: var(--r-chip);
+  font-size: 11px;
+  color: var(--text-3);
+}
+
+.divider {
+  flex: none;
+  width: 1px;
+  height: 20px;
+  background: var(--line-strong);
+}
+
+.site-name {
+  font-weight: 500;
+}
+
+.status {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  margin-left: auto;
+}
+
+.connection {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  height: 24px;
+  padding: 0 10px;
+  border: 1px solid rgba(240, 138, 43, 0.35);
+  border-radius: 12px;
+  font-size: 12px;
+  color: var(--watch);
+}
+
+.connection.is-live {
+  border-color: var(--line-strong);
+  color: var(--text-2);
+}
+
+.connection-dot {
+  flex: none;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--watch);
+}
+
+.connection.is-live .connection-dot {
+  background: var(--ok);
+}
+
+.clock {
+  min-width: 8ch;
+  font-family: var(--font-mono);
+  font-size: 13px;
+  font-variant-numeric: tabular-nums;
+  text-align: right;
+}

@@ -1,0 +1,4 @@
+<div class="segmented" role="group" aria-label="Viewport">
+  <button type="button" [class.is-active]="is3d()" [attr.aria-pressed]="is3d()" (click)="choose('3d')">3D</button>
+  <button type="button" [class.is-active]="isPlan()" [attr.aria-pressed]="isPlan()" (click)="choose('plan')">Plan</button>
+</div>

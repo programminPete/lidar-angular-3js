@@ -1,0 +1,31 @@
+:host {
+  display: inline-block;
+}
+
+.segmented {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  padding: 2px;
+  background: var(--bg-panel);
+  border: 1px solid var(--line-strong);
+  border-radius: var(--r-panel);
+}
+
+button {
+  height: 26px;
+  padding: 0 14px;
+  border-radius: var(--r-chip);
+  font-size: 12px;
+  color: var(--text-2);
+}
+
+button:hover {
+  color: var(--text-1);
+}
+
+button.is-active {
+  background: var(--bg-raised);
+  color: var(--text-1);
+  box-shadow: inset 0 0 0 1px var(--line-strong);
+}

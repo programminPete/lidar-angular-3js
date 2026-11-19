@@ -1,0 +1,41 @@
+:host {
+  display: block;
+  pointer-events: none;
+}
+
+.legend {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-size: var(--fs-label);
+  color: var(--text-2);
+}
+
+li {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.swatch {
+  flex: none;
+  width: 12px;
+  height: 12px;
+}
+
+/* Same outline and fill as the lanes drawn in both views. */
+.swatch-area {
+  background: rgba(53, 196, 165, 0.035);
+  border: 1px solid rgba(53, 196, 165, 0.62);
+}
+
+.swatch-standing {
+  width: 8px;
+  height: 8px;
+  margin: 0 2px;
+  background: var(--watch);
+  border-radius: 50%;
+}

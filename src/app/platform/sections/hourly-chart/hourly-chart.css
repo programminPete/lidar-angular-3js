@@ -1,0 +1,84 @@
+:host {
+  display: flex;
+  flex-direction: column;
+}
+
+.section-label {
+  line-height: 14px;
+}
+
+/* The plot leaves 64px on the right for the inline "Peak" and "Average" labels, which overflow into it. */
+.chart {
+  width: calc(100% - 64px);
+  margin-top: 12px;
+  overflow: visible;
+}
+
+.chart text {
+  font-family: var(--font-ui);
+  font-size: 11px;
+}
+
+.baseline {
+  stroke: rgba(255, 255, 255, 0.1);
+}
+
+.capacity-line {
+  stroke: rgba(232, 234, 237, 0.3);
+  stroke-dasharray: 4 4;
+}
+
+.series-label {
+  fill: var(--text-3);
+}
+
+.average-bar {
+  fill: rgba(53, 196, 165, 0.17);
+}
+
+.average-line {
+  fill: var(--ok);
+}
+
+.peak-backing {
+  fill: var(--bg-page);
+}
+
+.peak-cap {
+  fill: rgba(232, 234, 237, 0.5);
+}
+
+.peak-cap.is-breach {
+  fill: var(--watch);
+}
+
+.tick-label {
+  font-family: var(--font-mono) !important;
+  fill: var(--text-3);
+  text-anchor: middle;
+}
+
+/* The hour in progress: brighter, with a slow pulse on its average line while it updates. */
+.hour.is-current .average-bar {
+  fill: rgba(53, 196, 165, 0.28);
+}
+
+.hour.is-current .tick-label {
+  fill: var(--text-2);
+}
+
+.hour.is-current .average-line {
+  animation: live-pulse 2.4s ease-in-out infinite;
+}
+
+@keyframes live-pulse {
+  50% {
+    opacity: 0.45;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hour.is-current .average-line {
+    animation: none;
+  }
+}

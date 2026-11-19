@@ -1,0 +1,23 @@
+:host {
+  display: block;
+}
+
+.section-label {
+  margin-bottom: 14px;
+}
+
+.status {
+  color: var(--text-2);
+  font-variant-numeric: tabular-nums;
+}
+
+.countdown {
+  font-family: var(--font-mono);
+  font-weight: 500;
+  color: var(--text-1);
+}
+
+.separator {
+  margin: 0 4px;
+  color: var(--text-3);
+}

@@ -1,0 +1,23 @@
+<h2 class="section-label">Today by hour</h2>
+
+@let geometry = chart();
+<svg class="chart" [attr.height]="chartHeight" role="img" aria-label="People on the platform by hour today, average and peak">
+  <line class="baseline" x1="0" [attr.x2]="geometry.plotRight" [attr.y1]="geometry.baselineY" [attr.y2]="geometry.baselineY" />
+  <line class="capacity-line" x1="0" [attr.x2]="geometry.plotRight" [attr.y1]="geometry.capacityY" [attr.y2]="geometry.capacityY" />
+  <text class="series-label" x="0" [attr.y]="geometry.capacityLabelY">{{ geometry.capacityLabel }}</text>
+
+  @for (bar of geometry.bars; track bar.hour) {
+    <g class="hour" [class.is-current]="bar.isCurrent">
+      <rect class="average-bar" [attr.x]="bar.x" [attr.y]="bar.averageTop" [attr.width]="bar.width" [attr.height]="bar.averageHeight" />
+      <rect class="average-line" [attr.x]="bar.x" [attr.y]="bar.averageTop" [attr.width]="bar.width" height="1.5" />
+      <rect class="peak-backing" [attr.x]="bar.x" [attr.y]="bar.peakBackingY" [attr.width]="bar.width" height="5" />
+      <rect class="peak-cap" [class.is-breach]="bar.isBreach" [attr.x]="bar.x" [attr.y]="bar.peakCapY" [attr.width]="bar.width" height="2" />
+      @if (bar.tickLabel) {
+        <text class="tick-label" [attr.x]="bar.tickX" [attr.y]="geometry.tickLabelY">{{ bar.tickLabel }}</text>
+      }
+    </g>
+  }
+
+  <text class="series-label" [attr.x]="geometry.plotRight" dx="10" [attr.y]="geometry.peakLabelY">Peak</text>
+  <text class="series-label" [attr.x]="geometry.plotRight" dx="10" [attr.y]="geometry.averageLabelY">Average</text>
+</svg>

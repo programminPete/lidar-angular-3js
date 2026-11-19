@@ -1,0 +1,103 @@
+:host {
+  display: block;
+}
+
+.alert {
+  position: relative;
+  padding: 14px 16px 16px 18px;
+  background: var(--alert-soft);
+  border: 1px solid rgba(240, 71, 75, 0.36);
+  border-radius: var(--r-chip);
+  transition: background-color 200ms ease, border-color 200ms ease;
+}
+
+/* Red bar on the leading edge while the breach is unacknowledged and over capacity. */
+.alert::before {
+  content: "";
+  position: absolute;
+  top: -1px;
+  bottom: -1px;
+  left: -1px;
+  width: 3px;
+  border-radius: var(--r-chip) 0 0 var(--r-chip);
+  background: var(--alert);
+  transition: background-color 200ms ease;
+}
+
+.alert.is-calm {
+  background: var(--bg-raised);
+  border-color: var(--line-strong);
+}
+
+.alert.is-calm::before {
+  background: var(--text-3);
+}
+
+.title {
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+
+.detail {
+  margin-top: 4px;
+  color: var(--text-2);
+  font-variant-numeric: tabular-nums;
+}
+
+.door-list {
+  white-space: nowrap;
+}
+
+.footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 28px;
+  margin-top: 14px;
+}
+
+.acknowledge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  height: 28px;
+  padding: 0 12px;
+  border: 1px solid var(--line-strong);
+  border-radius: var(--r-chip);
+  background: var(--bg-raised);
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--text-1);
+  white-space: nowrap;
+}
+
+.acknowledge:hover {
+  border-color: rgba(255, 255, 255, 0.22);
+}
+
+/* Acknowledged reads as status text, not a control. */
+.acknowledge.is-acknowledged {
+  padding: 0;
+  border-color: transparent;
+  background: transparent;
+  color: var(--text-2);
+  cursor: default;
+}
+
+.check {
+  color: var(--ok);
+}
+
+.started-at {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-variant-numeric: tabular-nums;
+  color: var(--text-2);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .alert,
+  .alert::before {
+    transition: none;
+  }
+}
